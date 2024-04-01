@@ -1,0 +1,6 @@
+<div>
+    <h2>Departamentos</h2>
+    <!-- Botones generados dinámicamente para cada departamento -->
+    <button *ngFor="let departamento of departamentos" (click)="navigateToDepartamento(departamento)">{{ departamento }}</button>
+  </div>
+  

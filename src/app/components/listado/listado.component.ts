@@ -18,6 +18,7 @@ export class ListadoComponent implements OnInit {
     this.excelService.readExcel().then(
       data => {
         this.personas = data.filter(persona => persona.Departamento === this.departamento);
+        console.log('Nombres:', this.personas.map(persona => persona.Nombre));
       },
       error => {
         console.error('Error al leer el archivo Excel:', error);

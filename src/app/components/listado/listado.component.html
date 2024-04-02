@@ -13,5 +13,15 @@
         </div>
       </div>
     </div>
+
+    <div *ngFor="let persona of personas">
+      <span *ngIf="persona.Nombre && persona.Estatura">
+        {{ persona.Nombre }}, - {{ persona.Estatura }}
+      </span>
+      <span *ngIf="!persona.Nombre || !persona.Estatura">
+        Datos incompletos
+      </span>
+    </div>
+    
   </div>
   

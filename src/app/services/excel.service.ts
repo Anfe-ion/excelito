@@ -31,4 +31,11 @@ export class ExcelService {
         });
     });
   }
+
+  // Método para obtener una persona por su ID
+  getPersonaById(id: number, excelData: any[]): any {
+    console.log('ID buscado:', id);
+    // Buscar la persona en los datos cargados del archivo Excel
+    return excelData.find(persona => persona.ID === id);
+  }
 }

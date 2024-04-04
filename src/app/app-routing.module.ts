@@ -44,7 +44,7 @@ const routes: Routes = [
   // Ruta para Venezuela
   { path: 'listado/Venezuela', component: ListadoComponent },
   // Ruta para el componente DetalleComponent
-  { path: 'detalle/:nombre/:departamento/:estatura/:ciudad', component: DetalleComponent }
+  { path: 'detalle/:id', component: DetalleComponent }
 ];
 
 @NgModule({

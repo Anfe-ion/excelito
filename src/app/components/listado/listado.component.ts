@@ -26,13 +26,7 @@ export class ListadoComponent implements OnInit {
     );
   }
 
-  verMas(persona: any): void {
-    // Comprobar si los parámetros son undefined antes de navegar
-    if (persona.Nombre && persona.Departamento && persona.Estatura && persona.Ciudad) {
-      // Navegar a la página de detalles con los parámetros proporcionados
-      this.router.navigate(['/detalle', persona.Nombre, persona.Departamento, persona.Estatura, persona.Ciudad]);
-    } else {
-      console.error('Alguno de los parámetros es undefined.');
-    }
+  verMas(id: any): void {
+    this.router.navigate(['/detalle', id]);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ExcelService } from '../../services/excel.service';
 
 @Component({
   selector: 'app-detalle',
@@ -9,16 +10,21 @@ import { ActivatedRoute } from '@angular/router';
 export class DetalleComponent implements OnInit {
   persona: any;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private excelService: ExcelService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.persona = {
-        Nombre: params['nombre'],
-        Departamento: params['departamento'],
-        Estatura: params['estatura'],
-        Ciudad: params['ciudad']
-      };
+      const id = +params['id']; // Convertir a número
+      this.excelService.readExcel().then(
+        data => {
+          this.persona = this.excelService.getPersonaById(id, data);
+          console.log('Persona encontrada:', this.persona);
+        },
+        error => {
+          console.error('Error al leer el archivo Excel:', error);
+        }
+      );
     });
   }
 }
+

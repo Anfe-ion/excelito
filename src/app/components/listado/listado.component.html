@@ -1,27 +1,50 @@
-<div>
-    <!-- Título del listado -->
-    <h2>Listado de Personas en {{ departamento }}</h2>
-    <!-- Contenedor del grid de tarjetas -->
-    <div class="card-container">
-      <!-- Tarjeta individual para cada persona -->
-      <div *ngFor="let persona of personas" class="card">
-        <div class="card-body">
-          <h5 class="card-title">Nombre: {{ persona.Nombre }}</h5>
-          <p class="card-text">Departamento: {{ persona.Departamento }}</p>
-          <p class="card-text">Estatura: {{ persona.Estatura }} cm</p>
-          <button (click)="verMas(persona.ID)">Ver más</button> <!-- Botón Ver más -->
+<div id="directorioCompleto">
+    <div>
+        <div>
+            <h2>DIRECTORIO DE CRIADORES</h2>
+            <p>El Directorio de Criadores Cebuínos es una herramienta de consulta
+                creada por la Asociación Cebú para que usted contacte en forma sencilla
+                a nuestros asociados en todo el territorio nacional. Allí encontrará
+                criadores de las razas Brahman Blanco, Brahman Rojo, Gyr y Guzerá;
+                al igual que ganaderos comerciales vinculados con nuestra entidad.
+                Tan solo con hacer click sobre el departamento que desee consultar,
+                tendrá acceso al directorio respectivo.
+            </p>
         </div>
-      </div>
+        <!-- Barra de búsqueda -->
+        <div class="input-group">
+            <input type="search" class="form-control rounded"
+                placeholder="Buscar por departamento, ciudad, hacienda o nombre de criador" aria-label="Search"
+                aria-describedby="search-addon" [(ngModel)]="filtroBusqueda" (keydown.enter)="buscar()"/>
+            <button type="button" id="btn-buscar" data-mdb-ripple-init 
+             (click)="buscar()">Buscar</button>
+        </div>
+
+        <!-- Sección para mostrar las coincidencias de búsqueda -->
+        <div id="coincidenciasBusqueda" *ngIf="asociadosFiltrados && asociadosFiltrados.length > 0">
+            <h3>Resultados de la búsqueda:</h3>
+            <ol>
+                <li *ngFor="let asociado of asociadosFiltrados; let i = index">
+                    <!-- Cada resultado es un enlace hacia el detalle del criador -->
+                    <a [routerLink]="['/detalle', asociado.codigoAsociado]">
+                       {{ asociado.nombre }} - Código: {{ asociado.codigoAsociado }}                 
+                    </a> <br>
+                    <span *ngIf="asociado.hacienda1">{{ asociado.hacienda1 }}</span>
+                    <span *ngIf="asociado.departamento1"> - {{ asociado.departamento1 }}</span>
+                    <span *ngIf="asociado.tipoGanado"> - {{ asociado.tipoGanado }}</span>
+                </li>
+            </ol>
+            <mat-paginator [length]="asociadosFiltrados.length" [pageSize]="5" showFirstLastButtons></mat-paginator>
+        </div>
+        
+        <!-- Barra de búsqueda -->
     </div>
 
-    <div *ngFor="let persona of personas">
-      <span *ngIf="persona.Nombre && persona.Estatura">
-        {{ persona.Nombre }}, - {{ persona.Estatura }}
-      </span>
-      <span *ngIf="!persona.Nombre || !persona.Estatura">
-        Datos incompletos
-      </span>
+    <div id="listadoDepartamentos">
+        <!-- Botones generados dinámicamente para cada departamento -->
+        <button *ngFor="let departamento of departamentos" (click)="navigateToDepartamento(departamento)">
+            <i class="bi bi-geo-alt-fill"></i> {{ departamento }}
+        </button>
     </div>
-    
-  </div>
-  
+
+</div>

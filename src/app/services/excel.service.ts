@@ -8,34 +8,33 @@ export class ExcelService {
 
   constructor() { }
 
-  // Método para leer el archivo Excel
-  public readExcel(): Promise<any[]> {
-    const filePath = 'assets/ptas.xlsx'; // Ruta del archivo Excel en la carpeta assets
+   // Método para leer el archivo Excel
+   public readExcel(): Promise<any[]> {
+    const filePath = '/assets/directorioCriadores.xlsx'; // Ruta del archivo Excel
 
     return new Promise((resolve, reject) => {
       fetch(filePath)
         .then(response => response.arrayBuffer())
         .then(data => {
           const workbook: XLSX.WorkBook = XLSX.read(new Uint8Array(data), { type: 'array' });
-          const sheetName: string = workbook.SheetNames[0]; // Obtenemos el nombre de la primera hoja
-          const worksheet: XLSX.WorkSheet = workbook.Sheets[sheetName]; // Obtenemos la primera hoja
-          const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-
-          console.log('Datos leídos del archivo Excel:', jsonData); // Agregar console.log() para imprimir los datos leídos
-          
-          resolve(jsonData); // Resolvemos la promesa con los datos leídos
+          const sheetName: string = workbook.SheetNames[0]; //Se obtiene el nombre de la hoja
+          const worksheet: XLSX.WorkSheet = workbook.Sheets[sheetName]; //Se obtiene la hoja
+          const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, { raw: false }); 
+          /* El raw false se asegura que los datos se interpreten como texto, si esta en
+          true puede dedicir interpretar número como type-number y no type-text, por ejemplo. */              
+          resolve(jsonData);
         })
         .catch(error => {
-          console.error('Error al leer el archivo Excel:', error); // Manejo de errores
-          reject(error); // Rechazamos la promesa en caso de error
+          console.error('Error al leer el archivo Excel Service:', error); //Error
+          reject(error); //Rechazo de la promesa
         });
     });
   }
 
-  // Método para obtener una persona por su ID
-  getPersonaById(id: number, excelData: any[]): any {
-    console.log('ID buscado:', id);
-    // Buscar la persona en los datos cargados del archivo Excel
-    return excelData.find(persona => persona.ID === id);
+  /* Método para obtener el id del asociado,
+  esto es para la vista de la carta detallada */
+
+  getAsociadoByID(codigoAsociado: any, excelData:any[]):any{
+    return excelData.find(asociado => asociado.codigoAsociado === codigoAsociado)
   }
 }
